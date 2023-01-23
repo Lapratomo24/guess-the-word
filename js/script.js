@@ -16,3 +16,10 @@ const placeholder = (testWord) => {
   wordProgress.innerText = testArray.join("");
 };
 placeholder(testWord);
+
+guess.addEventListener("click", (e) => {
+  e.preventDefault();
+  const formInput = letter.value;
+  console.log(formInput);
+  formInput.innerHTML = "";
+});
