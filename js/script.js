@@ -8,6 +8,7 @@ const span= document.querySelector("span");
 const message = document.querySelector(".message");
 const hideButton = document.querySelector(".hide");
 const testWord = "magnolia";
+const pickedLetters = [];
 
 // Circles as placeholder
 const placeholder = (testWord) => {
@@ -24,12 +25,13 @@ guess.addEventListener("click", (e) => {
   e.preventDefault();
   message.innerText = "";
   const formInput = letter.value;
-  console.log(formInput);
-  letter.value = "";
-
 
   const userInput = inputValue(formInput);
-  console.log(userInput);
+  if (userInput) {
+    makeGuess(formInput);
+  }
+
+  letter.value = "";
 });
 
 // Validate player input
@@ -43,5 +45,15 @@ const inputValue = (input) => {
     message.innerText = "Enter a valid letter!";
   } else {
     return input;
+  }
+};
+
+const makeGuess = (letter) => {
+  const uppercased = letter.toUpperCase();
+  if (pickedLetters.includes(uppercased)) {
+    message.innerText = "You picked that letter already!";
+  } else {
+    pickedLetters.push(uppercased);
+    console.log(pickedLetters);
   }
 };
