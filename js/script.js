@@ -48,12 +48,40 @@ const inputValue = (input) => {
   }
 };
 
+// Prevent a duplicated letter
 const makeGuess = (letter) => {
   const uppercased = letter.toUpperCase();
   if (pickedLetters.includes(uppercased)) {
     message.innerText = "You picked that letter already!";
   } else {
     pickedLetters.push(uppercased);
-    console.log(pickedLetters);
+    displayLetters();
+    updateWord(pickedLetters);
   }
+};
+
+// Display an inline list of guessed letters
+const displayLetters = () => {
+  guessedLetters.innerHTML = "";
+  for (const letter of pickedLetters) {
+    const li = document.createElement("li");
+    li.innerText = letter;
+    guessedLetters.append(li);
+  }
+};
+
+// Replace circles with correctly-guessed letters
+const updateWord = (pickedLetters) => {
+  const wordUpper = testWord.toUpperCase();
+  const wordArray = wordUpper.split("");
+
+  const cirlesArray = [];
+  for (const letter of wordArray) {
+    if (pickedLetters.includes(letter)) {
+      cirlesArray.push(letter.toUpperCase());
+    } else {
+      cirlesArray.push("●");
+    }
+  }
+  wordProgress.innerText = cirlesArray.join("");
 };
