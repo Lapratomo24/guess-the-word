@@ -143,11 +143,11 @@ const startOver = () => {
 
 playAgainButton.addEventListener("click", () => {
   message.classList.remove("win");
-  message.innerHTML = "";
+  message.innerText = "";
   guessedLetters.innerHTML = "";
   remainingGuesses = 8;
   pickedLetters = [];
-  span.innerText = "8 guesses";
+  span.innerText = `${remainingGuesses} guesses`;
 
   guess.classList.remove("hide");
   remaining.classList.remove("hide");
