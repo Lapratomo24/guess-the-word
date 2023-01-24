@@ -4,10 +4,11 @@ const guess = document.querySelector(".guess");
 const letter = document.querySelector(".letter");
 const wordProgress = document.querySelector(".word-in-progress");
 const remaining = document.querySelector(".remaining");
-const span= document.querySelector("span");
+const span = document.querySelector(".remaining span");
 const message = document.querySelector(".message");
 const hideButton = document.querySelector(".hide");
-let testWord = "magnolia";
+
+let word = "magnolia";
 const pickedLetters = [];
 let remainingGuesses = 8;
 
@@ -19,18 +20,18 @@ const getWord = async function () {
   const data = await request.text();
   const wordArray = data.split("\n");
   const randomWord = Math.floor(Math.random()*wordArray.length);
-  testWord = wordArray[randomWord].trim();
-  placeholder(testWord);
+  word = wordArray[randomWord].trim();
+  placeholder(word);
 }
 getWord();
 
 // Circles as placeholder
-const placeholder = (testWord) => {
-  const testArray = [];
-  for (let item of testWord) {
-    testArray.push("●");
+const placeholder = (word) => {
+  const placeholderCircles = [];
+  for (let item of word) {
+    placeholderCircles.push("●");
   };
-  wordProgress.innerText = testArray.join("");
+  wordProgress.innerText = placeholderCircles.join("");
 };
 
 // Form input check
@@ -62,12 +63,12 @@ const inputValue = (input) => {
 };
 
 // Prevent a duplicated letter
-const makeGuess = (letter) => {
-  const uppercased = letter.toUpperCase();
-  if (pickedLetters.includes(uppercased)) {
+const makeGuess = (guess) => {
+  guess = guess.toUpperCase();
+  if (pickedLetters.includes(guess)) {
     message.innerText = "You picked that letter already!";
   } else {
-    pickedLetters.push(uppercased);
+    pickedLetters.push(guess);
     playerCount(guess);
     displayLetters();
     updateWord(pickedLetters);
@@ -86,7 +87,7 @@ const displayLetters = () => {
 
 // Replace circles with correctly-guessed letters
 const updateWord = (pickedLetters) => {
-  const wordUpper = testWord.toUpperCase();
+  const wordUpper = word.toUpperCase();
   const wordArray = wordUpper.split("");
 
   const cirlesArray = [];
@@ -103,7 +104,7 @@ const updateWord = (pickedLetters) => {
 
 // Check how many guesses are left
 const playerCount = (guess) => {
-  const upperWord = testWord.toUpperCase();
+  const upperWord = word.toUpperCase();
   if (!upperWord.includes(guess)) {
     message.innerText = "The word does NOT contain that letter!";
     remainingGuesses -= 1;
@@ -112,7 +113,7 @@ const playerCount = (guess) => {
   }
 
   if (remainingGuesses === 0) {
-    message.innerHTML = `Too bad, the word you're looking for is <span class="highlight">${testWord}</span>. Wanna retry?`;
+    message.innerHTML = `Too bad, the word you're looking for is <span class="highlight">${word}</span>. Wanna retry?`;
     span.innerText = `${remainingGuesses} guesses`;
   } else if (remainingGuesses === 1) {
     span.innerText = `${remainingGuesses} guess`;
@@ -123,7 +124,7 @@ const playerCount = (guess) => {
 
 // Check if player successfully guesses word and win the game
 const youWin = () => {
-  if (testWord.toUpperCase() === wordProgress.innerText) {
+  if (word.toUpperCase() === wordProgress.innerText) {
     message.classList.add("win");
     message.innerHTML = `<p class="highlight">You guessed correct the word! Congrats!</p>`;
   }
