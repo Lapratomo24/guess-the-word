@@ -84,4 +84,13 @@ const updateWord = (pickedLetters) => {
     }
   }
   wordProgress.innerText = cirlesArray.join("");
+  youWin();
 };
+
+// Check if player successfully guesses word and win the game
+const youWin = () => {
+  if (testWord.toUpperCase() === wordProgress.innerText) {
+    message.classList.add("win");
+    message.innerHTML = `<p class="highlight">You guessed correct the word! Congrats!</p>`;
+  }
+}
