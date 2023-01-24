@@ -7,8 +7,12 @@ const remaining = document.querySelector(".remaining");
 const span= document.querySelector("span");
 const message = document.querySelector(".message");
 const hideButton = document.querySelector(".hide");
-const testWord = "magnolia";
+let testWord = "magnolia";
 const pickedLetters = [];
+let remainingGuesses = 8;
+
+// Fetch 800-word data
+
 
 // Circles as placeholder
 const placeholder = (testWord) => {
@@ -55,6 +59,7 @@ const makeGuess = (letter) => {
     message.innerText = "You picked that letter already!";
   } else {
     pickedLetters.push(uppercased);
+    playerCount(guess);
     displayLetters();
     updateWord(pickedLetters);
   }
@@ -85,6 +90,26 @@ const updateWord = (pickedLetters) => {
   }
   wordProgress.innerText = cirlesArray.join("");
   youWin();
+};
+
+// Check how many guesses are left
+const playerCount = (guess) => {
+  const upperWord = testWord.toUpperCase();
+  if (!upperWord.includes(guess)) {
+    message.innerText = "The word does NOT contain that letter!";
+    remainingGuesses -= 1;
+  } else {
+    message.innerText = "Nice, you're getting there!";
+  }
+
+  if (remainingGuesses === 0) {
+    message.innerHTML = `Too bad, the word you're looking for is <span class="highlight">${testWord}</span>. Wanna retry?`;
+    span.innerText = `${remainingGuesses} guesses`;
+  } else if (remainingGuesses === 1) {
+    span.innerText = `${remainingGuesses} guess`;
+  } else {
+    span.innerText = `${remainingGuesses} guesses`;
+  }
 };
 
 // Check if player successfully guesses word and win the game
