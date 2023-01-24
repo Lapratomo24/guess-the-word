@@ -12,7 +12,17 @@ const pickedLetters = [];
 let remainingGuesses = 8;
 
 // Fetch 800-word data
-
+const getWord = async function () {
+  const request = await fetch (
+    "https://gist.githubusercontent.com/skillcrush-curriculum/7061f1d4d3d5bfe47efbfbcfe42bf57e/raw/5ffc447694486e7dea686f34a6c085ae371b43fe/words.txt"
+  )
+  const data = await request.text();
+  const wordArray = data.split("\n");
+  const randomWord = Math.floor(Math.random()*wordArray.length);
+  testWord = wordArray[randomWord].trim();
+  placeholder(testWord);
+}
+getWord();
 
 // Circles as placeholder
 const placeholder = (testWord) => {
@@ -22,7 +32,6 @@ const placeholder = (testWord) => {
   };
   wordProgress.innerText = testArray.join("");
 };
-placeholder(testWord);
 
 // Form input check
 guess.addEventListener("click", (e) => {
