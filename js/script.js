@@ -6,10 +6,10 @@ const wordProgress = document.querySelector(".word-in-progress");
 const remaining = document.querySelector(".remaining");
 const span = document.querySelector(".remaining span");
 const message = document.querySelector(".message");
-const hideButton = document.querySelector(".hide");
+const playAgainButton = document.querySelector(".play-again");
 
 let word = "magnolia";
-const pickedLetters = [];
+let pickedLetters = [];
 let remainingGuesses = 8;
 
 // Fetch 800-word data
@@ -115,6 +115,7 @@ const playerCount = (guess) => {
   if (remainingGuesses === 0) {
     message.innerHTML = `Too bad, the word you're looking for is <span class="highlight">${word}</span>. Wanna retry?`;
     span.innerText = `${remainingGuesses} guesses`;
+    startOver();
   } else if (remainingGuesses === 1) {
     span.innerText = `${remainingGuesses} guess`;
   } else {
@@ -127,5 +128,31 @@ const youWin = () => {
   if (word.toUpperCase() === wordProgress.innerText) {
     message.classList.add("win");
     message.innerHTML = `<p class="highlight">You guessed correct the word! Congrats!</p>`;
+
+    startOver();
   }
 }
+
+// Function to show and hide elements
+const startOver = () => {
+  guess.classList.add("hide");
+  remaining.classList.add("hide");
+  guessedLetters.classList.add("hide");
+  playAgainButton.classList.remove("hide");
+};
+
+playAgainButton.addEventListener("click", () => {
+  message.classList.remove("win");
+  message.innerHTML = "";
+  guessedLetters.innerHTML = "";
+  remainingGuesses = 8;
+  pickedLetters = [];
+  span.innerText = "8 guesses";
+
+  guess.classList.remove("hide");
+  remaining.classList.remove("hide");
+  guessedLetters.classList.remove("hide");
+  playAgainButton.classList.add("hide");
+
+  getWord();
+})
